@@ -152,5 +152,3 @@ def results():
         result.write(str(fake_words))
         result.write("\n")
         result.close()
-
-results()
