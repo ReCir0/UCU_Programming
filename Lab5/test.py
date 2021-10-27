@@ -1,1 +1,2 @@
-a = [("abd, bdc"), ("aaaa", "ruivniue")]
+import sys
+print(sys.platform)

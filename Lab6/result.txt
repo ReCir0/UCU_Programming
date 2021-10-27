@@ -1,0 +1,4 @@
+0
+['dele', 'heed', 'heel', 'heeled', 'hele', 'lede', 'leed']
+['eeeh']
+['eeeh']
