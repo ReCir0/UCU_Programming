@@ -105,8 +105,72 @@ def calendar(month: int, year: int) -> str:
 
     return calendar_full
 
-calendar(12 , 2015)
+def transform_calendar(calendar: str) -> str:
+    """Return a modified horizontal -> vertical calendar.
 
-# if __name__ == '__main__':
-#     import doctest
-#     doctest.testmod()
+    calendar is a string of a calendar, returned by the calendar()
+    function.
+    >>> print(transform_calendar(calendar(5, 2002)))
+    mon   6 13 20 27
+    tue   7 14 21 28
+    wed 1 8 15 22 29
+    thu 2 9 16 23 30
+    fri 3 10 17 24 31
+    sat 4 11 18 25
+    sun 5 12 19 26
+    >>> print(transform_calendar(calendar(8 , 2015)))
+    mon   3 10 17 24 31
+    tue   4 11 18 25
+    wed   5 12 19 26
+    thu   6 13 20 27
+    fri   7 14 21 28
+    sat 1 8 15 22 29
+    sun 2 9 16 23 30
+    """
+    calendar = calendar.split("\n")
+    rev_cal_lists = []
+    calendar[0] += " "
+    rev_cal_lists.append(calendar[0])
+    start_day = calendar[1].count(" ") - 3 * 7 + 1
+    start_month = ""
+    while start_day != 0:
+        start_month += "a "
+        start_day -= 1
+    i = 1
+    while len(start_month) < 14:
+        start_month += str(i) + " "
+        i += 1
+    rev_cal_lists.append(start_month)
+    for j in range(len(calendar) - 2):
+        calendar[j + 2] = calendar[j + 2].split(" ")
+        for i in range(20):
+            if '' in calendar[j + 2]:
+                calendar[j + 2].remove('')
+    calendar.pop(0)
+    calendar.pop(0)
+    len_rev_cal_lists = len(rev_cal_lists)
+    for i in range(len_rev_cal_lists):
+        rev_cal_lists[i] = rev_cal_lists[i].split(" ")
+        rev_cal_lists[i].remove('')
+    for i in calendar:
+        rev_cal_lists.append(i)
+    for i in range(7):
+        if rev_cal_lists[1][i] == "a":
+            rev_cal_lists[1][i] = " "
+    fin_cal = ""
+    while len(rev_cal_lists[-1]) < 7:
+        rev_cal_lists[-1].append("   ")
+    len_rev_cal_lists = len(rev_cal_lists)
+    for i in range(7):
+        for j in range(len_rev_cal_lists):
+            if j == len(rev_cal_lists) - 1:
+                fin_cal += rev_cal_lists[j][i]
+                break
+            fin_cal += rev_cal_lists[j][i] + " "
+        fin_cal += "\n"
+    fin_cal = fin_cal[:-1]
+    fin_cal = fin_cal.replace("    ", "")
+
+    return fin_cal
+
+print(transform_calendar(calendar(7, 2002)))
