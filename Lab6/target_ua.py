@@ -116,7 +116,3 @@ def results():
     print("Частина мови:", part_of_len)
     print("Ви вгадали:", len(correct_words), " слів правильно")
     print("Ви пропустили ці слова:", *missed_words)
-
-if __name__ == '__main__':
-    import doctest
-    doctest.testmod()
