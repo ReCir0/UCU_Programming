@@ -117,3 +117,4 @@ def results():
     print("Ви вгадали:", len(correct_words), " слів правильно")
     print("Ви пропустили ці слова:", *missed_words)
     print("commit nrjngrenintbjentbjornbergejtobgnjktngjltnjgbhjkgkg")
+    print('brygcshvhgfskhgvrtkrcaruv;btnractbp8erq7ytqc7lo')
