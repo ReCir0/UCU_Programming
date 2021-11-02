@@ -7,11 +7,15 @@ def generate_grid():
     '''
     Generates a random grid
     '''
-    alp = list("абвгґдеєжзиіїйклмнопрстуфхцчшщьюя")
-    letters = set()
+    alp = ['а', 'б', 'в', 'г', 'ґ', 'д', 'е', 'є', 'ж', 'з',\
+    'и', 'і', 'ї', 'й', 'к', 'л', 'м', 'н', 'о', 'п', 'р', 'с',\
+    'т', 'у', 'ф', 'х', 'ц', 'ч', 'ш', 'щ', 'ь', 'ю', 'я']
+    letters = []
     while len(letters) < 5:
-        letters.add(choice(alp).upper())
-    return list(letters)
+        letter = choice(alp)
+        if letter not in letters:
+            letters.append(letter)
+    return letters
 
 def get_words(url, letters):
     '''
@@ -24,7 +28,8 @@ def get_words(url, letters):
         for line in file:
             line.strip()
             line.encode('utf-8')
-            for i in range(len(line)):
+            len_line = len(line)
+            for i in range(len_line):
                 if line[i] == " ":
                     word, symbols = line[0:i], line[i:]
                     break
@@ -98,7 +103,8 @@ def results():
     The main function that calls all other functions
     """
     words = generate_grid()
-    for i in range(len(words)):
+    len_words = len(words)
+    for i in range(len_words):
         words[i] = words[i].lower()
     print(words)
     part_of_len = language_part_gen()
