@@ -168,6 +168,8 @@ def del_node(graph, node):
         return graph
     return dict(dictinary)
 
+print(del_node({1: [2], 3: [1]}, 2))
+
 def convert_to_dot(graph):
     """
     (dict) -> (None)
@@ -192,5 +194,3 @@ def convert_to_dot(graph):
             file.write(str(coords[i][1]))
             file.write(";\n")
         file.write("}")
-
-convert_to_dot({1: [2, 5], 2: [1, 4], 3: [4], 4: [2, 3], 5: [1]})
