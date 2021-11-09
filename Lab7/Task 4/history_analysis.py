@@ -13,8 +13,7 @@ def sites_on_date(visits: list, date: str):
     for site_info in visits:
         if site_info[2] == date:
             all_sites_visited.add(site_info[0])
-    if len(all_sites_visited) >= 1:
-        return all_sites_visited
+    return all_sites_visited
 
 def most_frequent_sites(visits, number):
     """
@@ -26,20 +25,25 @@ def most_frequent_sites(visits, number):
     >>> most_frequent_sites([('google.com', 'GOOGLE', "2021-11-08", '13:45:10:10', '2020')], 1)
     {'google.com'}
     """
-    list_of_visits = []
-    for name in visits:
-        list_of_visits.append(name[0])
-    set_of_lists = list(set(list_of_visits))
-    list_of_counted = []
-    for name in set_of_lists:
-        list_of_counted.append((list_of_visits.count(name), name))
-    list_of_counted.sort()
-    list_of_counted.reverse()
-    return_set = set()
-    for i in range(number):
-        return_set.add(list_of_counted[i][1])
-    if len(return_set) >= 1:
+    try:
+        list_of_visits = []
+        for name in visits:
+            list_of_visits.append(name[0])
+        set_of_lists = list(set(list_of_visits))
+        list_of_counted = []
+        for name in set_of_lists:
+            list_of_counted.append((list_of_visits.count(name), name))
+        list_of_counted.sort()
+        list_of_counted.reverse()
+        return_set = set()
+        try:
+            for i in range(number):
+                return_set.add(list_of_counted[i][1])
+        except IndexError:
+            return return_set
         return return_set
+    except IndexError:
+        return set()
 
 def get_url_info(visits: list, url: str):
     """
@@ -53,30 +57,30 @@ def get_url_info(visits: list, url: str):
     :param visits: all visits in browser history
     :param url: url of site to search
     :return: (title, last_visit_date, last_visit_time, num_of_visits, average_time)
-    >>> get_url_info([('google.com', 'GOOGLE', "2021-11-08", '13:45:10:10', '2020')], "google.com")
-    ['GOOGLE', '2021-11-08', '13:45:10:10', 1, 2020]
+    >>> get_url_info([('google.com', 'GOOGLE', "2021-11-08", '13:45:10.10', 2020)], "google.com")
+    ('GOOGLE', '2021-11-08', '13:45:10.10', 1, 2020.0)
     """
     list_required = []
     for elem in visits:
         if elem[0] == url:
             list_required.append(elem)
 
-    date_list = []
-    time_list = []
+    common_list = []
     duration = 0
     for date in list_required:
         dates = date[2]
         times = date[3]
         duration += int(date[4])
-        dates = dates[:4] + dates[5:7] + dates[8:]
-        times = times[:2] + times[3:5] + times[6:8] + times[9:]
-        date_list.append(dates)
-        time_list.append(times)
-    duration = int(duration/len(list_required))
-    date_max = max(date_list)
-    time_max = max(time_list)
-    date_max = date_max[:4] + '-' + date_max[4:6] + '-' + date_max[6:]
-    time_max = time_max[:2] + ':' + time_max[2:4] + ':' + \
-    time_max[4:6] + ':' + time_max[6:8]
+        common_list.append((dates, times))
+    if len(list_required) == 0:
+        return "", "", "", 0, 0
+    duration = duration/len(list_required)
+    tupple_max = max(common_list)
 
-    return [list_required[0][1], date_max, time_max, len(list_required), duration]
+    return (list_required[0][1], tupple_max[0], tupple_max[1], len(list_required), duration)
+
+#print(get_url_info([('url','topic','1992-02-11','01:05:36.66',97865), ('url','topic','2021-11-28','12:05:36.66',9876), ('url','topic','2021-11-07','12:05:36.66',878654), ('url','topic','2021-11-07','12:05:36.66',3456), ('url1','topic','2021-11-07','12:05:36.66',865), ('url1','topic','2021-11-07','12:05:36.66',34567), ('url1','topic','2021-11-07','12:05:36.66',97675), ('url1','topic','2021-11-07','12:05:36.66',3425), ('url1','topic','2021-11-07','12:05:36.66',76566), ('url1','topic','2021-11-07','12:05:36.66',6543), ('w','topic','2021-11-07','12:05:36.66',7643), ('url2','topic','2021-11-07','12:05:36.66',560)], 'url'))
+print(get_url_info([('url','topic','2022-2-11','11:05:36.66',97865), ('url','topic','2022-2-11','12:15:36.66',9876)], 'url'))
+print(most_frequent_sites([('url','topic','2022-2-11','11:05:36.66',97865)], 5))
+import doctest
+doctest.testmod()
